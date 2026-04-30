@@ -1,0 +1,234 @@
+FACTORY METHOD PATTERN — CLEAN NOTES (INTERFACE VERSION)
+
+---
+
+1. PROBLEM
+
+---
+
+Direct object creation leads to tight coupling:
+
+Example:
+new EmailNotification()
+
+Problems:
+
+* Service depends on concrete classes
+* Adding new type → modify existing code
+* Violates Open/Closed Principle
+
+---
+
+2. CORE IDEA
+
+---
+
+Move object creation out of business logic.
+
+Instead of:
+Service → creates object
+
+Do:
+Service → asks Factory → gets object
+
+---
+
+3. KEY COMPONENTS
+
+---
+
+1. PRODUCT (Interface)
+
+   * Defines WHAT to do
+     Example:
+     interface Notification {
+     void send();
+     }
+
+2. CONCRETE PRODUCTS (Implementations)
+
+   * Define HOW it works
+
+     class EmailNotification implements Notification
+     class SMSNotification implements Notification
+
+3. FACTORY (Interface)
+
+   * Defines HOW object will be created
+
+     interface NotificationFactory {
+     Notification createNotification();
+     }
+
+4. CONCRETE FACTORIES
+
+   * Actually create objects
+
+     class EmailFactory → returns EmailNotification
+     class SMSFactory → returns SMSNotification
+
+5. SERVICE (Business Logic)
+
+   * Uses product but does NOT create it
+
+6. CLIENT (Main)
+
+   * Decides which factory to use
+
+---
+
+4. FLOW (IMPORTANT)
+
+---
+
+Main (Client)
+↓
+Choose Factory (EmailFactory)
+↓
+Pass Factory to Service
+↓
+Service calls:
+factory.createNotification()
+↓
+Factory returns:
+EmailNotification object
+↓
+Service calls:
+notification.send()
+↓
+Output:
+"Email sent"
+
+---
+
+5. MENTAL MODEL
+
+---
+
+Client → decides WHAT type
+Factory → decides HOW to create
+Product → does actual work
+Service → uses product
+
+---
+
+6. BEFORE VS AFTER
+
+---
+
+WITHOUT FACTORY:
+
+```
+if(type == EMAIL) → new EmailNotification()
+if(type == SMS) → new SMSNotification()
+```
+
+Problems:
+
+* if-else everywhere
+* hard to extend
+
+WITH FACTORY:
+
+```
+Notification n = factory.createNotification();
+n.send();
+```
+
+Benefits:
+
+* No if-else
+* Clean code
+* Easy to extend
+
+---
+
+7. HOW TIGHT COUPLING IS REMOVED
+
+---
+
+Before:
+Service → directly uses EmailNotification
+
+After:
+Service → uses Notification (interface)
+
+Now:
+
+* Service does NOT know about Email/SMS
+* Only depends on abstraction
+
+---
+
+8. ADDING NEW TYPE (Push Notification)
+
+---
+
+Add only:
+
+1. PushNotification implements Notification
+2. PushFactory implements NotificationFactory
+
+Change only in Main:
+
+```
+factory = new PushFactory();
+```
+
+NO CHANGE in:
+
+* Service
+* Existing factories
+* Existing code
+
+---
+
+9. WHY USE FACTORY METHOD
+
+---
+
+* Removes tight coupling
+* Follows Open/Closed Principle
+* Cleaner architecture
+* Easy to scale
+
+---
+
+10. TRADE-OFF
+
+---
+
+Cons:
+
+* More classes
+* Slightly complex initially
+
+Pros:
+
+* Maintainable
+* Flexible
+* Scalable
+
+---
+
+11. ONE-LINE SUMMARY
+
+---
+
+Factory Method = Move object creation out of business logic using interfaces.
+
+---
+
+12. FINAL MEMORY TRICK
+
+---
+
+Without Factory:
+Service → new Object()
+
+With Factory:
+Service → Factory → Object
+
+---
+
+## END OF NOTES
