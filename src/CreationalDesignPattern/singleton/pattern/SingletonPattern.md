@@ -240,8 +240,11 @@ running = false;
 ## 💥 18. How Singleton Can Be Broken
 
 --Reflection
+
 --Serialization
+
 --Cloning
+
 --Multiple Class Loaders
 
 👉 Best fix: Use Enum Singleton
