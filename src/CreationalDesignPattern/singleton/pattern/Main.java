@@ -1,6 +1,6 @@
 package CreationalDesignPattern.singleton.pattern;
 
-public class Running {
+public class Main {
     public static void main(String[] args) {
         //Lazy initialization
         LazySingleton lazySingleton = LazySingleton.getLazyObject();
