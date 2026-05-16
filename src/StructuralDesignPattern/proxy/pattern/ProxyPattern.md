@@ -1,4 +1,4 @@
-# Proxy Design Pattern — Extensive Copyable Notes
+# Proxy Design Pattern
 
 ## 1. What is Proxy Design Pattern?
 
